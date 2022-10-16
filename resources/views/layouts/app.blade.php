@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css' --}}
+    <script src="{{asset('build/assets/app.ed052aec.css')}}"></script>
     <title>Post Bahamas | @yield('title')</title>
 
     @yield('css')
@@ -12,7 +13,7 @@
         let BASE_URL = {!! json_encode(url('/')) !!} + "/";
         var PROCESSING_IMG = "{{ asset('images/ajax-loading.gif') }}";
     </script>
-
+    <script src="{{asset('build/assets/app.334e7359.js')}}"></script>
 </head>
 
 <body class="font-sans leading-normal tracking-normal mt-12">
