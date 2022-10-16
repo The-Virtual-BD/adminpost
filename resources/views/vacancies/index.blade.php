@@ -1,0 +1,198 @@
+@extends('layouts.app')
+@section('title')
+    Vacancies
+@endsection
+@section('css')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+@endsection
+@section('content')
+    <div id="main" class="main-content flex-1 bg-gray-100 pb-24 md:pb-5">
+
+        <div class="shadow flex justify-between items-center">
+            <div class="p-4  text-2xl">
+                <h1 class="font-bold pl-2">Vacancies</h1>
+            </div>
+            <div class="p-4">
+                <button id="showCreateModal" class="py-1 px-2 rounded bg-blue-500 text-white">Create Job</button>
+            </div>
+        </div>
+
+        <div class="">
+            <!-- Create Modal -->
+            <div class="hidden p-4 w-full overflow-y-auto overflow-x-hidden top-28 left-48 z-50 md:inset-0 h-modal md:h-full justify-center items-center" id="addEditVacancyModal">
+                <div class="mt-5 md:col-span-2 md:mt-0">
+                    <form action="{{route('vacancies.store')}}" method="POST">
+                        @csrf
+                        <div class="shadow sm:overflow-hidden sm:rounded-md">
+                            <div class="space-y-6 bg-white px-4 py-5 sm:p-6">
+                                <div class="grid grid-cols-3 gap-6">
+                                    <div class="col-span-3">
+                                        <label for="jobTitle" class="block text-sm font-medium text-gray-700">Job
+                                            Title</label>
+                                        <input type="text" name="jobTitle" id="jobTitle"
+                                            class="mt-1 shadow-sm block w-full flex-1 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                            placeholder="Designation of this job vacancy." required>
+                                    </div>
+                                </div>
+                                <div class="col-span-6 ">
+                                    <label for="island" class="block text-sm font-medium text-gray-700">Island</label>
+                                    <select id="island" name="island" autocomplete="island-name"
+                                        class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" required>
+                                        @include('layouts.partials.islands')
+                                    </select>
+                                </div>
+                                <div class="grid gap-6 grid-cols-6">
+
+                                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                                        <label for="vacancy" class="block text-sm font-medium text-gray-700">Vacancy</label>
+                                        <input type="number" name="vacancy" id="vacancy"
+                                            autocomplete="address-level1"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                                        <label for="jobType"
+                                            class="block text-sm font-medium text-gray-700">Type</label>
+                                        <select id="jobType" name="jobType" autocomplete="jobType-name"
+                                            class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" required>
+                                            <option value="1">Full Time</option>
+                                            <option value="2">Part Time</option>
+                                            <option value="3">Remote</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                                        <label for="lastDate" class="block text-sm font-medium text-gray-700">Application Last Date</label>
+                                        <input type="date" name="lastDate" id="lastDate"
+                                            autocomplete="lastDate"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div>
+                                    <label for="description" class="block text-sm font-medium text-gray-700">Job
+                                        Description</label>
+                                    <div class="mt-1">
+                                        <textarea id="description" name="description" rows="3"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                            placeholder="Details about this Job" required></textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                                <button class="inline-flex justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" id="cancleCreate">Cancle</button>
+                                <button type="submit"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Save Job</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 w-full">
+            <table id="vacancyTable" class="display text-center">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Vacancy</th>
+                        <th>Job Type</th>
+                        <th>Last Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+
+
+
+
+@endsection
+@section('script')
+    <!-- DataTables -->
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/vacancy.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            function createModal(){
+
+            };
+
+            $('#vacancyTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('vacancies.index') !!}',
+                columns: [{
+                        data: 'jobTitle',
+                        name: 'jobTitle'
+                    },
+                    {
+                        data: 'island',
+                        name: 'island'
+                    },
+                    {
+                        data: 'vacancy',
+                        name: 'vacancy'
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            if (data.jobType == '1') {
+                                return '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded-full">Full Time</span>';
+                            } else if (data.jobType == '2') {
+                                return '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-400 text-white rounded-full">Part Time</span>';
+                            } else {
+                                return '<span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-gray-200 text-gray-700 rounded-full">Remote</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: 'lastDate',
+                        name: 'lastDate'
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            var edit_button ='<button class="bg-blue-400 text-white font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="showVacancy(' +
+                                data.id +
+                                ');"><span class="iconify" data-icon="carbon:view-filled"></span></button>' +
+                                '<button class="bg-green-400 text-white font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"><span class="iconify" data-icon="dashicons:edit"></span></button>' +
+                                '<button class="bg-red-400 text-white font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onclick="deleteVacancy(' +
+                                data.id +
+                                ');"><span class="iconify" data-icon="bi:trash-fill"></span></button>';
+                            return edit_button;
+
+                            // return `<a href="${BASE_URL}vacancyes/edit/${data.id}" class="btn btn-success btn-sm"  aria-pressed="true"><span class="iconify" data-icon="dashicons:edit"></span></a>
+                            // <button type="button"  class="btn btn-danger btn-sm" onclick="deletebook(${data.id});" aria-pressed="true"><i class="fa fa-trash"></i></button>
+                            // <a href="${BASE_URL}books/${data.id}/reviews" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-star"></i></a>`;
+                        }
+                    }
+                ]
+            });
+
+
+            $('#showCreateModal').click(function (e) {
+                e.preventDefault();
+                $("#addEditVacancyModal").show();
+            });
+            $('#cancleCreate').click(function (e) {
+                e.preventDefault();
+                $("#addEditVacancyModal").hide();
+            });
+
+        });
+
+
+        function showVacancy(){
+            console.log('this vacancy');
+        };
+    </script>
+@endsection
