@@ -13,7 +13,7 @@ class UpdateVacancyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class UpdateVacancyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'jobTitle' => 'required|string',
+            'island' => 'required|string',
+            'vacancy' => 'required|numeric',
+            'jobType' => 'required|numeric',
+            'lastDate' => 'required|date',
+            'description' => 'required|string',
         ];
     }
 }

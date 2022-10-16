@@ -73,7 +73,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        //
+        return view('vacancies.show',compact('vacancy'));
     }
 
     /**
@@ -84,7 +84,7 @@ class VacancyController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
-        //
+        return view('vacancies.edit',compact('vacancy'));
     }
 
     /**
@@ -96,7 +96,17 @@ class VacancyController extends Controller
      */
     public function update(UpdateVacancyRequest $request, Vacancy $vacancy)
     {
-        //
+        $data = [
+            'jobTitle' => $request->jobTitle,
+            'island' => $request->island,
+            'vacancy' => $request->vacancy,
+            'jobType' => $request->jobType,
+            'lastDate' => $request->lastDate,
+            'description' => $request->description,
+        ];
+
+        $vacancy->update($data);
+        return redirect()->route('vacancies.index');
     }
 
     /**
@@ -107,6 +117,8 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
-        //
+        $vacancy->delete();
+
+        return response()->json(['status'=>'success','message'=>'Job deleted successfully']);
     }
 }
