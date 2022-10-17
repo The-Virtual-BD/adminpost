@@ -40,7 +40,9 @@
                                     <select id="island" name="island" autocomplete="island-name"
                                         class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                                         required>
-                                        @include('layouts.partials.islands')
+                                        @foreach ($islands as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="grid gap-6 grid-cols-6">
@@ -57,9 +59,9 @@
                                         <select id="jobType" name="jobType" autocomplete="jobType-name"
                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                                             required>
-                                            <option value="1">Full Time</option>
-                                            <option value="2">Part Time</option>
-                                            <option value="3">Remote</option>
+                                            @foreach ($jobTypes as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -89,10 +91,12 @@
                             </div>
                             <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                                 <button
-                                    class="inline-flex justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700"
                                     id="cancleCreate">Cancle</button>
+                                <button type="reset"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-gray-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-600">Reset</button>
                                 <button type="submit"
-                                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Save
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700">Save
                                     Job</button>
                             </div>
                         </div>

@@ -20,16 +20,31 @@ class VacancyController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Vacancy::query())
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
                     ->make(true);
 
         }
+        $islands = [
+            'Abaco'=>'Abaco',
+            'Acklins'=>'Acklins',
+            'Andros'=>'Andros',
+            'Berry Islands'=>'Berry Islands',
+            'Bimini'=>'Bimini',
+            'Cat Island'=>'Cat Island',
+            'Crooked Island'=>'Crooked Island',
+            'Eleuthera'=>'Eleuthera',
+            'Exuma'=>'Exuma',
+            'Grand Bahama'=>'Grand Bahama',
+            'Inagua'=>'Inagua',
+            'Long Cay'=>'Long Cay',
+            'Long Island'=>'Long Island',
+            'Mayaguana'=>'Mayaguana',
+            'New Providence'=>'New Providence',
+            'Ragged Island'=>'Ragged Island',
+            'Rum Cay'=>'Rum Cay',
+            'San Salvador'=>'San Salvador'];
+        $jobTypes =['1'=>'Full Time','2'=>'Part Time','3'=>'Remote'];
 
-        return view('vacancies.index');
+        return view('vacancies.index',compact('islands','jobTypes'));
     }
 
 
@@ -84,7 +99,27 @@ class VacancyController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
-        return view('vacancies.edit',compact('vacancy'));
+        $islands = [
+            'Abaco'=>'Abaco',
+            'Acklins'=>'Acklins',
+            'Andros'=>'Andros',
+            'Berry Islands'=>'Berry Islands',
+            'Bimini'=>'Bimini',
+            'Cat Island'=>'Cat Island',
+            'Crooked Island'=>'Crooked Island',
+            'Eleuthera'=>'Eleuthera',
+            'Exuma'=>'Exuma',
+            'Grand Bahama'=>'Grand Bahama',
+            'Inagua'=>'Inagua',
+            'Long Cay'=>'Long Cay',
+            'Long Island'=>'Long Island',
+            'Mayaguana'=>'Mayaguana',
+            'New Providence'=>'New Providence',
+            'Ragged Island'=>'Ragged Island',
+            'Rum Cay'=>'Rum Cay',
+            'San Salvador'=>'San Salvador'];
+        $jobTypes =['1'=>'Full Time','2'=>'Part Time','3'=>'Remote'];
+        return view('vacancies.edit',compact('vacancy','islands','jobTypes'));
     }
 
     /**

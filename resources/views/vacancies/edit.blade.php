@@ -43,7 +43,9 @@
                                         <label for="island" class="block text-sm font-medium text-gray-700">Island</label>
                                         <select id="island" name="island" autocomplete="island-name"
                                             class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" required>
-                                            @include('layouts.partials.islands')
+                                            @foreach ($islands as $key => $value)
+                                            <option value="{{$key}}" @if ($key == $vacancy->island) Selected @endif>{{$value}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="grid gap-6 grid-cols-6">
@@ -59,9 +61,9 @@
                                                 class="block text-sm font-medium text-gray-700">Type</label>
                                             <select id="jobType" name="jobType" autocomplete="jobType-name"
                                                 class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" required>
-                                                <option value="1">Full Time</option>
-                                                <option value="2">Part Time</option>
-                                                <option value="3">Remote</option>
+                                                @foreach ($jobTypes as $key => $value)
+                                                <option value="{{$key}}" @if ($key == $vacancy->jobType) Selected @endif>{{$value}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 

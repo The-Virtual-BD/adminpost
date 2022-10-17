@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GalaryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VacancyController;
@@ -25,14 +26,12 @@ Route::group(['middleware' => ['auth']], function() {
 
     // Vacancies routs
     Route::resource('vacancies', VacancyController::class);
-    // Route::group(['prefix'=>'vacancies'], function(){
-    //     Route::get('/list', [VacancyController::class,'vacancylist']);
-    // });
 
-
-
-    // Vacancies routs
+    // Settings routs
     Route::resource('settings', SettingController::class);
+
+    // Galary routs
+    Route::resource('galleries', GalaryController::class);
 });
 
 
