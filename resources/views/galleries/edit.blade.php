@@ -20,6 +20,8 @@
                 id="addEditVacancyModal">
                 <div class="mt-5 md:col-span-2 md:mt-0">
                     <form action="{{ route('galleries.update',$galary->id) }}" method="POST" enctype="multipart/form-data">
+
+                    {{-- <form action="{{URL::to('/');}}/galleries/{{$galary->id}}/edit?id={{$galary->id}}" method="POST" enctype="multipart/form-data"> --}}
                         @csrf
                         @method('PATCH')
                         <div class="shadow sm:overflow-hidden sm:rounded-md">

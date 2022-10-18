@@ -95,8 +95,10 @@ class GalaryController extends Controller
      * @param  \App\Models\Galary  $galary
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGalaryRequest $request, Galary $galary)
+    public function update(UpdateGalaryRequest $request, $id)
     {
+
+        $galary = Galary::find($id);
         $galary->type = $request->type;
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');

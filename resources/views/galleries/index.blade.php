@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-span-6 sm:col-span-3 lg:col-span-2 hidden vlink">
+                                <div class="col-span-6 sm:col-span-3 lg:col-span-2 vlink">
                                     <label for="vlink" class="block text-sm font-medium text-gray-700">Video Link</label>
                                     <input type="text" name="vlink" id="vlink"
                                         class="mt-1 shadow-sm block w-full flex-1 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
@@ -160,7 +160,7 @@
                 if (result.value) {
                     $.ajax({
                         method: 'DELETE',
-                        url: BASE_URL + 'galleries/' + mediaID +'?id='+mediaID,
+                        url: BASE_URL + 'galleries/' + mediaID + '?id=' + mediaID,
                         success: function(response) {
                             if (response.status == "success") {
                                 Swal.fire('Success!', response.message, 'success');
@@ -175,10 +175,10 @@
             });
         }
 
-        $('#type').change(function(e) {
-            e.preventDefault();
-            $('.vlink').toggleClass('hidden');
-            $('.photo').toggleClass('hidden');
-        });
+        // $('#type').change(function(e) {
+        //     e.preventDefault();
+        //     $('.vlink').toggleClass('hidden');
+        //     $('.photo').toggleClass('hidden');
+        // });
     </script>
 @endsection
