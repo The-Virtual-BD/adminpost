@@ -32,6 +32,12 @@ Route::group(['middleware' => ['auth']], function() {
 
     // Galary routs
     Route::resource('galleries', GalaryController::class);
+
+
+    Route::get('fp', function ()
+    {
+        return view('fp');
+    })->name('flightPlanner');
 });
 
 
