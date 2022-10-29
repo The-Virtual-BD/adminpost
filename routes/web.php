@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalaryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,10 @@ Route::group(['middleware' => ['auth']], function() {
 
     // Galary routs
     Route::resource('galleries', GalaryController::class);
+
+
+    // User routs
+    Route::resource('users', UserController::class);
 
 
     Route::get('fp', function ()
