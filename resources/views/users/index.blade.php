@@ -13,7 +13,8 @@
                 <h1 class="font-bold pl-2">Users</h1>
             </div>
             <div class="p-4">
-                <button id="showCreateModal" class="py-1 px-2 rounded bg-blue-500 text-white">Create User</button>
+                <a href="{{ route('users.create') }}"><button class="py-1 px-2 rounded bg-blue-500 text-white">Create
+                        User</button></a>
             </div>
         </div>
 
@@ -29,6 +30,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
+
 
             </table>
         </div>
@@ -92,32 +94,33 @@
 
 
 
-    function userDelete(userID) {
-        Swal.fire({
-            title: "Delete ?",
-            text: "Are you sure to delete this User ?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: "Delete",
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    method: 'DELETE',
-                    url: BASE_URL +'users/'+userID,
-                    success: function (response) {
-                        if (response.status == "success") {
-                            Swal.fire('Success!', response.message, 'success');
-                            vacancylist.draw();
-                        }else if(response.status == "error"){
-                            Swal.fire('This item is not deletable!', response.message, 'error');
-                            vacancylist.draw();
+        function userDelete(userID) {
+            Swal.fire({
+                title: "Delete ?",
+                text: "Are you sure to delete this User ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "Delete",
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        method: 'DELETE',
+                        url: BASE_URL +'users/'+userID,
+                        success: function(response) {
+                            if (response.status == "success") {
+                                Swal.fire('Success!', response.message, 'success');
+                                vacancylist.draw();
+                            } else if (response.status == "error") {
+                                Swal.fire('This item is not deletable!', response.message, 'error');
+                                vacancylist.draw();
+                            }
                         }
-                    }
-                });
-            }
-        });
-    }
+                    });
+                }
+            });
+        }
+        // BASE_URL +'users/'+userID
     </script>
 @endsection

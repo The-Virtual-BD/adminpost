@@ -22,16 +22,16 @@
                     <a href="{{route('galleries.index')}}"
                         class="flex items-center py-1 pl-1 align-middle text-white no-underline hover:text-white ">
                         <span class="iconify mr-4" data-icon="ic:baseline-photo-library"></span><span
-                            class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Galary</span>
+                            class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Gallery</span>
                     </a>
                 </li>
-                <li class="mr-3 flex-1">
+                {{-- <li class="mr-3 flex-1">
                     <a href="{{route('flightPlanner')}}"
                         class="flex items-center py-1 pl-1 align-middle text-white no-underline hover:text-white ">
                         <span class="iconify mr-4" data-icon="ic:sharp-flight"></span><span
                             class="pb-1 md:pb-0 text-xs md:text-base text-gray-400 md:text-gray-200 block md:inline-block">Flight Planner</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="mr-3 flex-1">
                     <a href="{{route('users.index')}}"
                         class="flex items-center py-1 pl-1 align-middle text-white no-underline hover:text-white ">

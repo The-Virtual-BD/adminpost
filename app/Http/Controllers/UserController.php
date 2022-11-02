@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewUserAdded;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-
+use Illuminate\Support\Facades\Hash;
+use App\Models\Profile;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -29,7 +32,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
+
     }
 
     /**
@@ -40,9 +44,50 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
 
-        return "Under Development";
+
+        $request->validate([
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:11','unique:users'],
+            'nib' => ['required', 'string', 'max:20', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        ]);
+
+        $randomnumber =   rand(123456,654321);
+        $suite = date('mds');
+        if (User::count() > 0) {
+            $lastuser = User::latest()->first('suite');
+            $suite = $lastuser->suite + 1;
+        }
+
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'phone' => $request->phone,
+            'name' => $request->name,
+            'nib' => $request->nib,
+            'suite' => $suite,
+            'email' => $request->email,
+            'password' => Hash::make($randomnumber),
+        ]);
+
+        $profile = Profile::create([
+            'user_id' => $user->id
+        ]);
+
+
+        $details = [
+            'name' => $user->firstname,
+            'email' => $user->email,
+            'password' => $randomnumber,
+            'body' => 'Welcome! Please save these information below. We dont have a copy of it.',
+        ];
+
+        $mail = Mail::to($user->email)->send(new NewUserAdded($details));
+
+
+        return view('users.index');
     }
 
     /**
@@ -53,7 +98,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return "Under Development";
+        $user = User::find($id);
+        return view('users.show',compact('user'));
 
     }
 
@@ -65,8 +111,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return "Under Development";
-        
+        $user = User::find($id);
+        return view('users.edit',compact('user'));
+
     }
 
     /**
@@ -78,7 +125,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $user = User::find($id);
+        $user->phone = $request->phone;
+        $user->nib = $request->nib;
+        $user->email = $request->email;
+        $user->save();
+
+        return view('users.index');
+
     }
 
     /**
@@ -89,6 +144,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $profile = Profile::where('user_id',$id)->first();
+        $profile->delete();
+        $user = User::find($id);
+        $user->delete();
+        return response()->json(['status'=>'success','message' => 'User deleted successfylly !']);
     }
 }
