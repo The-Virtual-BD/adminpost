@@ -30,8 +30,6 @@ class AuthController extends Controller
         {
             return redirect()->route('index');
         }else{
-            dd($credentials);
-            // return response('error');
             return redirect()->route('login')
                 ->with('error','Email-Address And Password Are Wrong.');
         }

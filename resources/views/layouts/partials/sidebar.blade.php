@@ -56,15 +56,17 @@
                     <img src="{{ asset('images/avater.png') }}" alt="" srcset="" class="w-[50px]">
                 </div>
                 <div class="ml-4 text-white">
-                    <p class="">Mehedi Hasan</p>
-                    <p class="font-thin">Admin</p>
+                    <a href="{{route('myprofile')}}">
+                        <p class="">Mehedi Hasan</p>
+                        <p class="font-thin">Admin</p>
+                    </a>
                 </div>
             </div>
 
 
             <div class="pt-4 text-white text-lg">
                 <ul class="flex justify-center">
-                    <li class="mx-2 hover:text-blue-300"><a href=""><span class="iconify"
+                    <li class="mx-2 hover:text-blue-300"><a href="{{route('myprofile')}}"><span class="iconify"
                                 data-icon="healthicons:ui-user-profile"></span></a></li>
                     <li class="mx-2 hover:text-blue-300"><a href="{{ route('logout') }}"><span class="iconify"
                                 data-icon="ri:logout-circle-line"></span></a></li>

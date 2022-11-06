@@ -7,6 +7,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -43,6 +44,12 @@ Route::group(['middleware' => ['auth']], function() {
     {
         return view('fp');
     })->name('flightPlanner');
+
+    // Profile
+    Route::controller(ProfileController::class)->prefix('profiles')->group(function () {
+        Route::get('/', 'index')->name('myprofile');
+        Route::get('/edit', 'edit')->name('editprofile');
+        Route::post('/update/{user}', 'update')->name('updateprofile');
+    });
+
 });
-
-

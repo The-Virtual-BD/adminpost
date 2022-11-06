@@ -9,7 +9,6 @@ use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Mail;
-
 class UserController extends Controller
 {
     /**
@@ -33,7 +32,6 @@ class UserController extends Controller
     public function create()
     {
         return view('users.create');
-
     }
 
     /**
@@ -49,12 +47,12 @@ class UserController extends Controller
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:11','unique:users'],
+            'phone' => ['required', 'string', 'max:11', 'unique:users'],
             'nib' => ['required', 'string', 'max:20', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
 
-        $randomnumber =   rand(123456,654321);
+        $randomnumber =   rand(123456, 654321);
         $suite = date('mds');
         if (User::count() > 0) {
             $lastuser = User::latest()->first('suite');
@@ -83,8 +81,15 @@ class UserController extends Controller
             'password' => $randomnumber,
             'body' => 'Welcome! Please save these information below. We dont have a copy of it.',
         ];
+        try {
 
-        $mail = Mail::to($user->email)->send(new NewUserAdded($details));
+            $mail = Mail::to($user->email)->send(new NewUserAdded($details));
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+
+
 
 
         return view('users.index');
@@ -99,8 +104,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
-
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -112,8 +116,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('users.edit',compact('user'));
-
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -133,7 +136,6 @@ class UserController extends Controller
         $user->save();
 
         return view('users.index');
-
     }
 
     /**
@@ -144,10 +146,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $profile = Profile::where('user_id',$id)->first();
+        $profile = Profile::where('user_id', $id)->first();
         $profile->delete();
         $user = User::find($id);
         $user->delete();
-        return response()->json(['status'=>'success','message' => 'User deleted successfylly !']);
+        return response()->json(['status' => 'success', 'message' => 'User deleted successfylly !']);
     }
 }
