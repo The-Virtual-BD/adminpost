@@ -74,42 +74,42 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $user = User::find($id);
+        $profile = Profile::where('user_id',$id)->first();
+
+        if ($request->file('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $image_full_name = time().'_'.$user->name.$user->id.'.'.$image->extension();
+            $upload_path = 'images/pp/';
+            $image_url = $upload_path.$image_full_name;
+            $success = $image->move($upload_path, $image_full_name);
+            $profile->photo = $image_url;
+            $profile->save();
+            return redirect()->route('myprofile');
+        }
+
+
         if ($request->password) {
             $request->validate([
                 'password' => ['required', 'confirmed'],
             ]);
 
-            $user = User::find($id);
             $user->password = Hash::make($request->password);
             $user->save();
             return redirect()->route('myprofile');
         }
 
-
-        $user = User::findOrFail($id);
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->phone = $request->phone;
         $user->save();
 
 
-        $profile = Profile::where('user_id',$id)->first();
+
 
         $profile->first_name = $request->firstname;
         $profile->last_name = $request->lastname;
         $profile->phone = $request->phone;
-        $profile->nib = $request->nib;
-        $profile->account_type = $request->type;
-        if ($request->type == 2) {
-            $profile->company_name = $request->companyname;
-            $profile->tin_number = $request->tin;
-        }
-        $profile->country = $request->country;
-        $profile->island = $request->island;
-        $profile->address = $request->about;
-        $profile->house = $request->house;
-        $profile->region = $request->region;
-        $profile->location = $request->location;
         $profile->save();
 
         return redirect()->route('myprofile');

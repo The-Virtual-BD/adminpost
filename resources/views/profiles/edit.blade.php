@@ -17,16 +17,21 @@
 
         <div class="container mx-auto py-6">
             <div class="rounded-t bg-white p-4 flex justify-start items-center shadow">
-                <div class="mx-6">
-                    <img src="{{ asset('images/avatarbig.png') }}" alt="" class="w-24 h-auto">
+                <div class="mx-6 relative group">
+                    <form id="studentppform" method="POST" action="{{ route('updateprofile', Auth::user()->id) }}" enctype="multipart/form-data" class="d-none">
+                        @csrf
+                        <input type="file" name="profile_picture" id="selectedFile" style="display: none;" />
+                    </form>
+                    <img src="{{ Auth::user()->profile->photo ? asset(Auth::user()->profile->photo) : asset('images/avatarbig.png') }}" alt="" class="w-24 h-auto rounded-full">
+                    <button class="bg-blue-500 px-1 py-1 rounded text-xs text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden group-hover:block" id="ppChangeBtn" onclick="document.getElementById('selectedFile').click();">Change</button>
                 </div>
                 <div class="font-inter">
                     <h3 class="font-poppins font-medium text-xl">
                         {{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}
                     </h3>
-                    <p>NIB: {{ Auth::user()->nib }}</p>
+                    {{-- <p>NIB: {{ Auth::user()->nib }}</p>
                     <p>Email: {{ Auth::user()->email }}</p>
-                    <p class="text-blue font-bold">Suite: #{{ Auth::user()->suite }}</p>
+                    <p class="text-blue font-bold">Suite: #{{ Auth::user()->suite }}</p> --}}
                 </div>
             </div>
         </div>
@@ -36,16 +41,6 @@
                 @csrf
                 <div class="">
                     <div class="grid grid-cols-6 gap-4">
-                        <div class="col-span-6">
-                            <label for="type" class="block text-sm font-bold font-poppins">TYPE OF ACCOUNT</label>
-                            <select id="type" name="type"
-                                class=" block w-full rounded-md border border-blue bg-lblue focus:bg-white focus:ring-0 py-2 px-3 shadow-sm sm:text-sm">
-                                <option value="1" {{ Auth::user()->profile->account_type == 1 ? 'selected' : '' }}>
-                                    Personal</option>
-                                <option value="2" {{ Auth::user()->profile->account_type == 2 ? 'selected' : '' }}>
-                                    Business</option>
-                            </select>
-                        </div>
                         {{-- Company details --}}
                         <div class="col-span-6 sm:col-span-3 companydetails hidden">
                             <label for="companyname" class="block text-sm font-bold font-poppins">Company
@@ -76,52 +71,12 @@
                                 class=" block w-full rounded-md bg-lblue focus:bg-white focus:ring-0 border-blue shadow-sm sm:text-sm"
                                 required>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="phone" class="block text-sm font-bold font-poppins">Phone</label>
-                            <input type="text" name="phone" id="phone" value="{{ Auth::user()->phone }}"
-                                class=" block w-full rounded-md bg-lgray focus:bg-white focus:ring-0 border-gray shadow-sm sm:text-sm"
-                                required readonly>
-                        </div>
 
                         <div class="col-span-6 sm:col-span-3">
                             <label for="email" class="block text-sm font-bold font-poppins">Email</label>
                             <input type="email" name="email" id="email" value="{{ Auth::user()->email }}"
                                 class=" block w-full rounded-md bg-lgray focus:bg-white focus:ring-0 border-gray shadow-sm sm:text-sm"
                                 required readonly>
-                        </div>
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="country" class="block text-sm font-bold font-poppins">Country</label>
-                            <select id="country" name="country"
-                                class=" block w-full rounded-md border border-blue bg-lblue focus:bg-white focus:ring-0 py-2 px-3 shadow-sm sm:text-sm">
-                                <x-country></x-country>
-                            </select>
-                        </div>
-
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="island" class="block text-sm font-bold font-poppins">Island</label>
-                            <select id="island" name="island"
-                                class=" block w-full rounded-md border border-blue bg-lblue focus:bg-white focus:ring-0 py-2 px-3 shadow-sm sm:text-sm">
-                                <x-island></x-island>
-                            </select>
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="about" class="block text-sm font-bold font-poppins">Address</label>
-                            <div class="mt-1">
-                                <textarea id="about" name="about" rows="1"
-                                    class="mt-1 block w-full rounded-md bg-lblue focus:bg-white focus:ring-0 border-blue shadow-sm sm:text-sm">{{ Auth::user()->profile->address ?? '' }}</textarea>
-                            </div>
-                        </div>
-
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="house" class="block text-sm font-bold font-poppins">Street/House
-                                No.</label>
-                            <input type="text" name="house" id="house"
-                                value="{{ Auth::user()->profile->house ?? '' }}"
-                                class="block w-full rounded-md border-blue bg-lblue focus:bg-white focus:ring-0 sm:text-sm"
-                                required>
                         </div>
                     </div>
                 </div>
@@ -165,4 +120,17 @@
 
 
     </div>
+@endsection
+@section('script')
+<script>
+    $(document).ready(function () {
+
+        $("#selectedFile").on('input', function() {
+            $("#studentppform").submit();
+        });
+
+
+    });
+</script>
+
 @endsection

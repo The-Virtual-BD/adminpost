@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('title')
-     Create User
+     Edit User
 @endsection
 @section('content')
     <div id="main" class="main-content flex-1 bg-gray-100 pb-24 md:pb-5">
 
         <div class="shadow flex justify-between items-center">
             <div class="p-4  text-2xl">
-                <h1 class="font-bold pl-2">Create New User</h1>
+                <h1 class="font-bold pl-2">Edit This User</h1>
             </div>
             <div class="p-4">
                 <a href="{{route('users.index')}}"><button id="showCreateModal" class="py-1 px-2 rounded bg-blue-500 text-white">All Users</button></a>
