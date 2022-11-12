@@ -16,7 +16,7 @@ class SettingSeeder extends Seeder
     public function run()
     {
         $setting = Setting::create([
-            'property' => 'moode',
+            'property' => 'mode',
             'value' => 1,
         ]);
     }

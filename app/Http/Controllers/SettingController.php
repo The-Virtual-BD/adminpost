@@ -38,7 +38,7 @@ class SettingController extends Controller
     public function store(StoreSettingRequest $request)
     {
 
-        $setting = Setting::where('property','moode')->first();
+        $setting = Setting::where('property','mode')->first();
         $setting->value = $request->appmode;
         $setting->save();
         return redirect()->route('settings.index');
